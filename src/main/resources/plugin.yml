@@ -1,0 +1,61 @@
+name: RubySteal
+version: '${version}'
+main: dev.rubysteal.RubyStealPlugin
+api-version: '1.21'
+author: RubySteal
+description: Evolution-based Lifesteal SMP gamemode with Ruby levels and abilities.
+commands:
+  ruby:
+    description: Open the Ruby menu or use a RubySteal sub-command.
+    usage: /ruby [stats|abilities|top|inspect|reload|setlevel|reset]
+    aliases: [rubysteal, rs]
+permissions:
+  rubysteal.use:
+    description: Open the /ruby GUI and use Ruby items.
+    default: true
+  rubysteal.command.stats:
+    default: true
+  rubysteal.command.abilities:
+    default: true
+  rubysteal.command.top:
+    default: true
+  rubysteal.ability.*:
+    description: Use every Ruby ability (individual nodes are rubysteal.ability.<id>).
+    default: true
+  rubysteal.admin:
+    description: All RubySteal admin commands.
+    default: op
+    children:
+      rubysteal.command.inspect: true
+      rubysteal.command.reload: true
+      rubysteal.command.setlevel: true
+      rubysteal.command.reset: true
+      rubysteal.bypass.antifarm: true
+      rubysteal.bypass.combat: true
+      rubysteal.bypass.dupe: true
+      rubysteal.bypass.pack: true
+      rubysteal.alerts: true
+  rubysteal.command.inspect:
+    default: op
+  rubysteal.command.reload:
+    default: op
+  rubysteal.command.setlevel:
+    default: op
+  rubysteal.command.reset:
+    default: op
+  rubysteal.bypass.antifarm:
+    description: Kills by this player ignore anti-farm rules.
+    default: false
+  rubysteal.bypass.combat:
+    description: Not killed for combat logging; abilities usable in combat.
+    default: false
+  rubysteal.bypass.dupe:
+    description: Ruby items are never removed by protection scans.
+    default: false
+  rubysteal.bypass.pack:
+    description: Not kicked for refusing a required resource pack.
+    default: false
+  rubysteal.alerts:
+    description: Receive in-game alerts when protection removes a Ruby item.
+    default: false
+    
