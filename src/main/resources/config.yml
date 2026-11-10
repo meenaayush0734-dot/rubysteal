@@ -1,0 +1,382 @@
+# ==========================================================================
+#  RubySteal - config.yml          (messages use MiniMessage formatting)
+#  After editing: /ruby reload   (task intervals and database settings
+#  need a server restart)
+# ==========================================================================
+
+# Level a brand-new player starts at (1 = Basic Ruby).
+starting-level: 1
+
+item:
+  material: ECHO_SHARD          # base item; the pack replaces its look via item_model
+  model-namespace: rubysteal    # namespace used by the resource pack
+  name-format: "{name}"
+  glint-from-level: 8           # enchant glint on the item from this level up
+
+# ------------------------------------------------------------- evolution levels
+# required-kills = total Ruby XP needed (1 valid kill = 1 XP).
+# model = item model file inside the pack (assets/rubysteal/items/<model>.json)
+levels:
+  1:
+    name: "Basic Ruby"
+    required-kills: 0
+    color: "#C0392B"
+    model: ruby_level_1
+    lore:
+      - "<gray>A fragile ruby, bound to <white>{owner}<gray>."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+    particle: { type: DUST, color: "#B3162B", size: 0.8, count: 2, offset: 0.35, y-offset: 1.0 }
+  2:
+    name: "Uncommon Ruby"
+    required-kills: 5
+    color: "#E0364B"
+    model: ruby_level_2
+    lore:
+      - "<gray>The ruby begins to glow."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Quickstep"
+    particle: { type: CRIMSON_SPORE, count: 3, offset: 0.4, speed: 0.0, y-offset: 1.0 }
+  3:
+    name: "Rare Ruby"
+    required-kills: 12
+    color: "#FF4D5E"
+    model: ruby_level_3
+    lore:
+      - "<gray>Set in a small band of gold."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Miner's Touch"
+    particle: { type: FLAME, count: 2, offset: 0.35, speed: 0.01, y-offset: 0.9 }
+  4:
+    name: "Epic Ruby"
+    required-kills: 22
+    color: "#D4145A"
+    model: ruby_level_4
+    lore:
+      - "<gray>Golden prongs hold its fire."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Ruby Guard"
+    particle: { type: DRIPPING_LAVA, count: 3, offset: 0.4, speed: 0.0, y-offset: 1.6 }
+  5:
+    name: "Heroic Ruby"
+    required-kills: 35
+    color: "#FF3B30"
+    model: ruby_level_5
+    lore:
+      - "<gray>A hero's gem, heavy with power."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Ruby Pulse"
+    particle: { type: SOUL_FIRE_FLAME, count: 2, offset: 0.35, speed: 0.01, y-offset: 0.9 }
+  6:
+    name: "Ancient Ruby"
+    required-kills: 50
+    color: "#9B1B30"
+    model: ruby_level_6
+    lore:
+      - "<gray>Runes older than the world."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Vital Spark"
+    particle: { type: ENCHANT, count: 6, offset: 0.5, speed: 0.4, y-offset: 1.4 }
+  7:
+    name: "Royal Ruby"
+    required-kills: 70
+    color: "#FFB400"
+    model: ruby_level_7
+    lore:
+      - "<gray>Crowned in gold."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Fire Resistance"
+    particle: { type: TOTEM_OF_UNDYING, count: 2, offset: 0.4, speed: 0.1, y-offset: 1.0 }
+  8:
+    name: "Divine Ruby"
+    required-kills: 95
+    color: "#FF6B81"
+    model: ruby_level_8
+    lore:
+      - "<gray>A halo of light surrounds it."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Crimson Rush"
+    particle: { type: ELECTRIC_SPARK, count: 3, offset: 0.45, speed: 0.05, y-offset: 1.0 }
+  9:
+    name: "Immortal Ruby"
+    required-kills: 125
+    color: "#FF4500"
+    model: ruby_level_9
+    lore:
+      - "<gray>Embers that never die."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Ruby Aura"
+    particle: { type: FIREWORK, count: 2, offset: 0.4, speed: 0.03, y-offset: 1.0 }
+  10:
+    name: "Supreme Ruby"
+    required-kills: 160
+    color: "#FFD700"
+    model: ruby_level_10
+    lore:
+      - "<gray>The final form. Wings of gold."
+      - "<dark_gray>Level {level}/{max}"
+      - "<gray>Kills: <red>{kills}"
+      - "<light_purple>Ability: Ruby Awakening"
+    particle: { type: DUST, color: "#FFD700", size: 1.2, count: 5, offset: 0.5, y-offset: 1.0 }
+
+evolution:
+  title: true
+  sound: "entity.player.levelup"     # vanilla sound key, blank = none
+  particle-multiplier: 12
+  broadcast: true
+  broadcast-min-level: 3             # announce evolutions to everyone from this level
+
+particles:
+  enabled: true
+  only-when-held: true               # show only while the Ruby is in a hand
+  interval-ticks: 10
+
+hud:
+  enabled: true                      # action bar with the selected ability and its cooldown
+  interval-ticks: 10
+  format: "<dark_red>◆ <light_purple>{ability} <dark_gray>» {status}"
+  ready-format: "<green>READY"
+  cooldown-format: "<red>{time}"
+
+# ---------------------------------------------------------------- abilities
+# Right-click with the Ruby = use selected ability. Sneak + right-click = switch.
+# types: EFFECT, PULSE, HEAL, AURA, AWAKENING.  effects use vanilla effect names.
+# Permission per ability: rubysteal.ability.<id>   (default: everyone)
+abilities:
+  disabled-worlds: []                # e.g. [ "spawn" ]
+  reset-cooldowns-on-death: false
+  burst-multiplier: 8                # particle burst size on use
+  max-pulse-velocity: 2.5
+  aura-max-targets: 8
+  list:
+    quickstep:
+      name: "Quickstep"
+      description: "Temporary Speed II."
+      type: EFFECT
+      unlock-level: 2
+      cooldown-seconds: 45
+      block-in-combat: false
+      sound: "entity.horse.gallop"
+      effects:
+        - { type: speed, amplifier: 1, seconds: 10 }
+    miners_touch:
+      name: "Miner's Touch"
+      description: "Temporary Haste II."
+      type: EFFECT
+      unlock-level: 3
+      cooldown-seconds: 60
+      sound: "block.amethyst_block.chime"
+      effects:
+        - { type: haste, amplifier: 1, seconds: 20 }
+    ruby_guard:
+      name: "Ruby Guard"
+      description: "Resistance I for a short time."
+      type: EFFECT
+      unlock-level: 4
+      cooldown-seconds: 75
+      sound: "item.shield.block"
+      effects:
+        - { type: resistance, amplifier: 0, seconds: 8 }
+    ruby_pulse:
+      name: "Ruby Pulse"
+      description: "Burst forward in the direction you look."
+      type: PULSE
+      unlock-level: 5
+      cooldown-seconds: 30
+      block-in-combat: true          # stops it being used as a free escape
+      power: 1.6
+      vertical: 0.35
+      sound: "entity.breeze.wind_burst"
+    vital_spark:
+      name: "Vital Spark"
+      description: "Restore 3 hearts (3 uses per life)."
+      type: HEAL
+      unlock-level: 6
+      cooldown-seconds: 90
+      uses-per-life: 3
+      amount: 6.0                    # health points, 2 = 1 heart
+      sound: "entity.player.levelup"
+    fire_resistance:
+      name: "Fire Resistance"
+      description: "Immunity to fire and lava for 30s."
+      type: EFFECT
+      unlock-level: 7
+      cooldown-seconds: 120
+      sound: "item.firecharge.use"
+      effects:
+        - { type: fire_resistance, amplifier: 0, seconds: 30 }
+    crimson_rush:
+      name: "Crimson Rush"
+      description: "Speed III for a few seconds."
+      type: EFFECT
+      unlock-level: 8
+      cooldown-seconds: 60
+      sound: "entity.blaze.shoot"
+      effects:
+        - { type: speed, amplifier: 2, seconds: 6 }
+    ruby_aura:
+      name: "Ruby Aura"
+      description: "Resistance I for you and scoreboard-team mates nearby."
+      type: AURA
+      unlock-level: 9
+      cooldown-seconds: 90
+      radius: 8.0
+      include-self: true
+      sound: "block.beacon.activate"
+      effects:
+        - { type: resistance, amplifier: 0, seconds: 8 }
+    ruby_awakening:
+      name: "Ruby Awakening"
+      description: "Level 10 only: Strength, Resistance and Speed for 15s."
+      type: AWAKENING
+      unlock-level: 10
+      cooldown-seconds: 300
+      sound: "entity.ender_dragon.growl"
+      effects:
+        - { type: strength, amplifier: 0, seconds: 15 }
+        - { type: resistance, amplifier: 0, seconds: 15 }
+        - { type: speed, amplifier: 1, seconds: 15 }
+
+# ------------------------------------------------------------ protection
+protection:
+  scan-interval-ticks: 100           # inventory validation (dupes, foreign/stale rubies)
+  alert-admins: true                 # message players with rubysteal.alerts
+
+combat:
+  enabled: true
+  tag-seconds: 15
+  kill-on-logout: true               # logging out while tagged kills the player
+
+anti-farm:
+  enabled: true
+  block-same-ip: true                # no XP for kills between accounts on one IP
+  same-victim-cooldown-seconds: 600  # same victim only counts once per 10 min
+  max-kills-per-victim-per-hour: 3
+  min-victim-playtime-minutes: 5     # fresh alts give no XP
+  max-xp-per-hour: 40                # 0 = unlimited
+
+# ---------------------------------------------------------------- GUI
+gui:
+  title: "<dark_red><bold>RUBY <dark_gray>» <red>Evolution"
+  history-entries: 5
+  background-material: BLACK_STAINED_GLASS_PANE
+  border-material: RED_STAINED_GLASS_PANE
+  bar-filled-material: RED_STAINED_GLASS_PANE
+  bar-empty-material: GRAY_STAINED_GLASS_PANE
+  locked-material: GRAY_DYE
+
+leaderboard:
+  size: 10
+  refresh-seconds: 60
+
+# ------------------------------------------------------------ database
+database:
+  type: sqlite                       # sqlite | mysql
+  autosave-seconds: 120
+  sqlite:
+    file: rubysteal.db
+  mysql:
+    host: localhost
+    port: 3306
+    database: rubysteal
+    username: root
+    password: ""
+    parameters: "useSSL=false&autoReconnect=true&characterEncoding=utf8"
+  backup:
+    enabled: true
+    interval-minutes: 60
+    keep: 24                         # newest backups kept in plugins/RubySteal/backups
+
+# ------------------------------------------------------ resource pack
+# Nothing is sent unless enabled AND url are set. See RESOURCEPACK.md for hosting.
+resource-pack:
+  enabled: false
+  url: ""                            # direct download link to RubySteal-ResourcePack.zip
+  sha1: ""                           # 40 hex chars: sha1sum RubySteal-ResourcePack.zip
+  prompt: "<red>RubySteal</red> needs its resource pack for custom Ruby textures."
+  required: false                    # true = players who refuse/fail are kicked
+  send-delay-ticks: 20
+
+# ------------------------------------------------------------- messages
+messages:
+  prefix: "<dark_gray>[<dark_red>Ruby<dark_gray>] <reset>"
+  no-permission: "{prefix}<red>You do not have permission."
+  only-players: "{prefix}<red>This command can only be used by players."
+  unknown-subcommand: "{prefix}<red>Unknown sub-command. Try <white>/ruby help<red>."
+  db-error-kick: "<red>Your Ruby data could not be loaded. Please try again in a moment."
+  welcome-first-join: "{prefix}<gray>Welcome! You received a {ruby}<gray>. Kill players to evolve it!"
+  ruby-given: "{prefix}<gray>You received your {ruby}<gray>."
+  inventory-full: "{prefix}<red>Your inventory is full - free a slot to receive your Ruby."
+  ruby-locked: "{prefix}<red>Your Ruby is soulbound and cannot be moved there."
+  xp-gain: "{prefix}<gray>+1 Ruby XP <dark_gray>(<white>{xp}<dark_gray>, <red>{remaining}<dark_gray> to next level)"
+  evolved: "{prefix}<gold>Your Ruby evolved into {ruby}<gold>! <gray>(Level {level})"
+  evolution-title: "{ruby}"
+  evolution-subtitle: "<gray>Ruby evolved to level <white>{level}"
+  evolution-broadcast: "{prefix}<white>{player} <gray>evolved their Ruby into {ruby}<gray>!"
+  ability-unlocked: "{prefix}<light_purple>New ability unlocked: <white>{abilities}"
+  no-abilities: "{prefix}<gray>Your Ruby has no abilities yet. Reach level 2 to unlock the first one."
+  ability-selected: "{prefix}<gray>Selected ability: <light_purple>{ability}"
+  ability-used: "{prefix}<light_purple>{ability} <gray>activated <dark_gray>(cooldown {cooldown}s)"
+  ability-cooldown: "{prefix}<red>{ability} is on cooldown: <white>{time}"
+  ability-no-uses: "{prefix}<red>{ability} has no uses left this life <dark_gray>(max {max})"
+  ability-blocked-combat: "{prefix}<red>{ability} cannot be used while in combat."
+  ability-world-disabled: "{prefix}<red>Abilities are disabled in this world."
+  heal-full: "{prefix}<gray>You are already at full health."
+  aura-received: "{prefix}<light_purple>{player}'s {ability} <gray>protects you."
+  combat-tagged: "{prefix}<red>You are in combat! Do not log out for {seconds}s."
+  combat-logout-broadcast: "{prefix}<red>{player} <gray>logged out in combat and was killed."
+  protection-alert: "{prefix}<yellow>Removed an invalid Ruby from <white>{player}<yellow>: {reason}"
+  farm-self: "{prefix}<gray>No Ruby XP: you cannot farm yourself."
+  farm-same-ip: "{prefix}<gray>No Ruby XP: both players share an IP address."
+  farm-cooldown: "{prefix}<gray>No Ruby XP: you recently killed {victim}."
+  farm-limit: "{prefix}<gray>No Ruby XP: too many kills on {victim} this hour."
+  farm-new-player: "{prefix}<gray>No Ruby XP: {victim} has not played long enough."
+  farm-hourly-cap: "{prefix}<gray>No Ruby XP: hourly XP limit reached."
+  player-not-found: "{prefix}<red>No Ruby data for <white>{player}<red>."
+  usage-inspect: "{prefix}<gray>Usage: <white>/ruby inspect <player>"
+  usage-setlevel: "{prefix}<gray>Usage: <white>/ruby setlevel <player> <level>"
+  usage-reset: "{prefix}<gray>Usage: <white>/ruby reset <player>"
+  invalid-level: "{prefix}<red>Level must be a number between 1 and {max}."
+  reloaded: "{prefix}<green>Configuration reloaded."
+  setlevel-done: "{prefix}<gray>{player}'s Ruby is now {ruby}<gray>."
+  setlevel-notify: "{prefix}<gray>An admin set your Ruby to {ruby}<gray>."
+  reset-done: "{prefix}<gray>{player}'s Ruby progress was reset."
+  reset-notify: "{prefix}<gray>An admin reset your Ruby progress."
+  pack-required-kick: "<red>You must accept the RubySteal resource pack to play."
+  abilities-header: "{prefix}<red>Your abilities <dark_gray>(right-click = use, sneak + right-click = switch)"
+  abilities-line-unlocked: " {selected} <light_purple>{ability} <dark_gray>- <gray>{description} <dark_gray>[{status}<dark_gray>]"
+  abilities-line-locked: " <dark_gray>{ability} - unlocks at level {level} ({ruby}<dark_gray>)"
+  top-header: "{prefix}<red><bold>Ruby Leaderboard"
+  top-empty: " <gray>Nobody on the leaderboard yet."
+  top-line: " <gold>#{rank} <white>{player} <dark_gray>- {ruby} <gray>({xp} XP, {kills} kills)"
+  stats:
+    - "{prefix}<red><bold>Your Ruby"
+    - " <gray>Ruby: {ruby} <dark_gray>(level {level}/{max})"
+    - " <gray>XP: <white>{xp}  <gray>Kills: <white>{kills}  <gray>Deaths: <white>{deaths}"
+    - " <gray>Next: {next} <dark_gray>- <white>{remaining} <gray>kills to go"
+    - " {bar} <white>{percent}%"
+  inspect:
+    - "{prefix}<red><bold>Ruby of {player}"
+    - " <gray>Ruby: {ruby} <dark_gray>(level {level}/{max})"
+    - " <gray>XP: <white>{xp}  <gray>Kills: <white>{kills}  <gray>Deaths: <white>{deaths}"
+    - " <gray>Next: {next} <dark_gray>- <white>{remaining} <gray>kills to go"
+    - " {bar} <white>{percent}%"
+  help:
+    - "{prefix}<red><bold>RubySteal commands"
+    - " <white>/ruby <gray>- open the Ruby menu"
+    - " <white>/ruby stats <gray>- your progress"
+    - " <white>/ruby abilities <gray>- your abilities and cooldowns"
+    - " <white>/ruby top <gray>- leaderboard"
+    - " <white>/ruby inspect <player> <gray>- admin"
+    - " <white>/ruby setlevel <player> <level> <gray>- admin"
+    - " <white>/ruby reset <player> <gray>- admin"
+    - " <white>/ruby reload <gray>- admin"
+    
