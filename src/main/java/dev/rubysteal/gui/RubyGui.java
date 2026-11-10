@@ -138,6 +138,6 @@ public final class RubyGui implements InventoryHolder {
     @Override
     public Inventory getInventory() {
         ret
-                  urn inv;
+                  return inv;
     }
   }
