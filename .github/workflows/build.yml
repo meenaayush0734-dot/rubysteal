@@ -13,10 +13,10 @@ jobs:
           java-version: 21
       - uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: 8.12
-      - run: gradle build --no-daemon
+          gradle-version: 8.10.2
+      - run: unzip -q RubySteal-Source.zip
+      - run: cd RubySteal && gradle build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: RubySteal-jar
-          path: build/libs/RubySteal.jar
-          
+          path: RubySteal/build/libs/RubySteal.jar
